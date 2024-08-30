@@ -1,40 +1,35 @@
-<body> 
-    <h1>Homework List:</h1>
-    <p>This page is used to add homework for assignment and will send them to your email at the end of each school day.<p\> 
-    <script>
-       const Button= document.getElementById(homepage)
-       Button.addEventListener("click",function(){
-        window.location.href = "Pulseplay.cloud"
-       }
-
-    </script>
-
-
-</body>
 <head>
     <style>
+        body {
+            background-color: #FFF8E7;
+        }
 
-body{
-    background-color: #FFF8E7 ;
-}
+        h1 {
+            text-align: center;
+            color: #66B2B2;
+            font-size: 30px;
+        }
 
-h1 {
-    text-align: center;
-    color:  #66B2B2;
-    font-size: 30px;
-}
+        p {
+            text-align: center;
+            color: #FFA500;
+            font-size: 20px;
+        }
 
-
-p {
-    text-align: center;
-    color:#FFA500;
-    font-size: 20px;
-}
-
-
-
-
-
-
+        #homepage {
+            /* Add any styles here for #homepage */
+        }
     </style>
 </head>
+
+<body> 
+    <h1>Homework List:</h1>
+    <p>This page is used to add homework for assignment and will send them to your email at the end of each school day.</p> 
+
+    <script>
+        const Button = document.getElementById("homepage");
+        Button.addEventListener("click", function(){
+            window.location.href = "Pulseplay.cloud";
+        });
+    </script>
+</body>
