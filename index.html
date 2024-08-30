@@ -2,7 +2,6 @@
     <style>
         body {
             background-color: #FFF8E7;
-            
         }
 
         h1 {
@@ -14,30 +13,28 @@
             color: #66B2B2;
             text-align: center;
         }
+
         #Container {
             text-align: center; 
         }
-        #Tester {
 
+        #Tester {
             padding: 10px 20px;
             font-size: 16px;
         }
-    
     </style>
 </head>
-
-
-
 
 <body>
     <h1>Welcome to PulsePlay!</h1>
     <p>This website is for EDUCATIONAL PURPOSE ONLY. Everything on this site is being used for learning to code. Please do not misuse this website for school.</p>
-    <button id="Tester">Tester</button>
-
+    
+    <!-- Button inside the #Container div -->
     <div id="Container">
         <button id="Tester">Tester</button>
-    </div> 
-    
+    </div>
+
+    <!-- Script to handle the button click -->
     <script>
         const Button = document.getElementById("Tester");
         Button.addEventListener("click", function() {
@@ -45,4 +42,3 @@
         });
     </script>
 </body>
-
