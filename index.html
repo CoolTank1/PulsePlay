@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulse Play</title>
-    <link rel="shortcut icon" href="Logo.jpg">
+    <link rel=shortcut icon href="Logo.jpg">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
         body {
@@ -14,6 +14,8 @@
             font-family: Arial, sans-serif;
         }
 
+        
+        
         h1 {
             color: #FFA500;
             margin: 8px 0 0 25px;
@@ -22,10 +24,10 @@
             position: absolute;
             z-index: 3;
             top: 10px;
-            left: 100px;
+            left:100px;
             display: inline-block;
             padding: 0px 20px;
-            background-color: #FFF8E7;
+            background-color:#FFF8E7;
         }
 
         p {
@@ -33,58 +35,37 @@
             text-align: center;
             font-size: 14px;
             margin: 20px;
-            position: absolute;
+            position:absolute;
             top: 500px;
         }
+        
+
+        
 
         #Container {
             text-align: center;
             margin-top: 20px;
             top: 30px;
-            left: 40%;
+            left:40%;
             height: 40px;
             width: 70px;
             cursor: pointer;
             padding: 10px 20px;
             z-index: 3;
-            position: absolute;
-            border: none;
+            position:absolute;
+            border:none;
+            
         }
 
-        /* Hover effect button */
-        #HomeworkList {
-            position: relative;
+        /* #HomeworkList {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #FFA500;
             border: none;
-            border-radius: 5px;
-            color: white;
-            overflow: hidden; /* Hide overflow to create slide effect */
-            z-index: 1;
-        }
+            border-radius: 5px; 
+        
 
-        #HomeworkList::before {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #FF7F00; /* Darker shade of orange */
-            transition: top 0.3s ease; /* Smooth transition for the slide effect */
-            z-index: -1; /* Place it behind the button content */
-        }
-
-        #HomeworkList:hover::before {
-            top: 0;
-        }
-
-        #HomeworkList span {
-            position: relative;
-            z-index: 2;
-        }
+        }*/
 
         #TopRectangleBar {
             width: 100%;
@@ -99,7 +80,7 @@
 
         img {
             position: absolute;
-            margin: 0px;
+            margin:0px;
             padding: 0px;
             top: 5px;
             left: 18px;
@@ -108,6 +89,8 @@
             border-radius: 100px;
             z-index: 3;
         }
+
+        
     </style>
 </head>
 <body>
@@ -119,7 +102,7 @@
     <p>This website is for EDUCATIONAL PURPOSE ONLY. Everything on this site is being used for learning to code. Please do not misuse this website for school.</p>
     
     <div id="Container">
-        <button id="HomeworkList"><span>Homework List</span></button>
+        <button id="HomeworkList">Homework List</button>
     </div>
 
     <script>
