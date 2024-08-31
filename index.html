@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pulse Play</title>
     <link rel="shortcut icon" href="Logo.jpg">
+    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Baskervville+SC&display=swap');
@@ -54,6 +55,7 @@
             font-family: 'Baskervville SC',serif ;
             font-weight: bold;
             color: #FFA500;
+            text-decoration: none;
         }
 
         .HomeworkList::before {
@@ -98,7 +100,8 @@
 <body>
     <div id="TopRectangleBar"></div>
     
-        <button class="HomeworkList">Homework List</button>
+        <a href="/homeworkList.html" class="HomeworkList">Homework List</a>
+        <button class="HomeworkList"> Help Page</button>
         
     
     
@@ -107,13 +110,5 @@
     <h1>Pulse Play</h1>
     <p>This website is for EDUCATIONAL PURPOSE ONLY. Everything on this site is being used for learning to code. Please do not misuse this website for school.</p>
     
-       
-
-    <script>
-        const Button = document.getElementById("HomeworkList");
-        Button.addEventListener("click", function() {
-            window.location.href = "/homeworkList.html";
-        });
-    </script>
 </body>
 </html>
