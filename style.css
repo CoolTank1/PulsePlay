@@ -16,8 +16,8 @@ h2 {
     color:#003366;
     font-size: 80px;
     position:absolute;
-    top:355px;
-    left: 115px;
+    top:20%;
+    left: 50%;
     font-family: 'Oswald', serif;
     overflow-wrap: break-word;
 }
