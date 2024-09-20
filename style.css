@@ -17,7 +17,8 @@ h2 {
     font-size: 80px;
     position:absolute;
     top:20%;
-    left: 50%-500px;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'Oswald', serif;
     overflow-wrap: break-word;
 }
