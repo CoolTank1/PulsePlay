@@ -161,4 +161,28 @@ h1 {
     z-index: 3;
 }
 
+#GameButton{
+    position: absolute;
+    top:60%;
+    left:5%;
+    height: 300px;
+    width:300px;
+    border-radius: 10px;
+    background-image: url('GameImg.png');
+    background-position: center;
+    background-size: cover;
+    z-index: 3;
+    transition: 0.3s ease, box-shadow 0.3s ease;
+    cursor:pointer;
+    
+}
+
+#GameButton:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); 
+
+
+}
+
+
 
