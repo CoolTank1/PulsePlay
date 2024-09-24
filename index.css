@@ -39,6 +39,7 @@ h1 {
     padding: 0px 20px;
     background-color: #FFF8E7;
     border-radius: 5px;
+    cursor:pointer;
 }
 
 .p1 {
@@ -191,17 +192,17 @@ h1 {
 
 }
 
-#Filler1{
+#HomeworkButton{
     position:absolute;
     top:60%;
     left:27.25%;
-    background-color:white;
+    background-image:url('BookImg.jpeg')
 }
 #Filler2{
     position:absolute;
     top:60%;
     left:52.25%;
-    background-color:white;
+    background-image: url('HelpImg.png')
 }
 #Filler3{
     position:absolute;
