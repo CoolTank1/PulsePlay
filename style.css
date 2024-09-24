@@ -24,6 +24,7 @@ h2 {
     display:inline-block;
     padding:10px 20px;
     background-color:#003366;
+    border-radius:10px;
 }
 h1 { 
     color: #FFA500;
@@ -37,6 +38,7 @@ h1 {
     display: inline-block;
     padding: 0px 20px;
     background-color: #FFF8E7;
+    border-radius: 5px;
 }
 
 .p1 {
@@ -54,7 +56,8 @@ h1 {
     padding:10px 20px;
     background-color: #FFF8E7;
     box-shadow: 0 8px 16px(0,0,0,0,5);
-    transform: translateX(-50%)
+    transform: translateX(-50%);
+    border-radius: 10px;
     
 }
 
@@ -95,7 +98,7 @@ h1 {
     height:max-content;
     padding:16px;
     overflow:hidden;
-   
+    border-radius:5px;
     font-size: 20px;
     font-family: 'Baskervville SC',serif ;
     font-weight: bold;
@@ -161,14 +164,10 @@ h1 {
     z-index: 3;
 }
 
-#GameButton{
-    position: absolute;
-    top:60%;
-    left:5%;
+.BigButtons{
     height: 300px;
     width:300px;
     border-radius: 10px;
-    background-image: url('GameImg.png');
     background-position: center;
     background-size: cover;
     z-index: 3;
@@ -177,11 +176,38 @@ h1 {
     
 }
 
-#GameButton:hover{
+.BigButtons:hover{
     transform: scale(1.05);
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); 
 
 
+}
+
+#GameButton{
+    position:absolute;
+    background-image: url('GameImg.png');
+    top:60%;
+    left:2%;
+
+}
+
+#Filler1{
+    position:absolute;
+    top:60%;
+    left:27.25%;
+    background-color:white;
+}
+#Filler2{
+    position:absolute;
+    top:60%;
+    left:52.25%;
+    background-color:white;
+}
+#Filler3{
+    position:absolute;
+    top:60%;
+    left:77.5%;
+    background-color:white;
 }
 
 
