@@ -71,11 +71,11 @@ h1 {
 
 
 
-#Fill2{
+#LoginPage{
     top:22px;
     left:85%;
 }
-#Fill1{
+#GamesPage{
     top:22px;
     left:70%;
 }
@@ -198,17 +198,17 @@ h1 {
     left:27.25%;
     background-image:url('BookImg.jpeg')
 }
-#Filler2{
+#HelpButton{
     position:absolute;
     top:60%;
     left:52.25%;
     background-image: url('HelpImg.png')
 }
-#Filler3{
+#LoginButton{
     position:absolute;
     top:60%;
     left:77.5%;
-    background-color:white;
+    background-image: url('LoginImg.png')
 }
 
 
