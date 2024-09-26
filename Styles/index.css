@@ -186,7 +186,7 @@ h1 {
 
 #GameButton{
     position:absolute;
-    background-image: url('GameImg.png');
+    background-image: url('/GameImg.png');
     top:60%;
     left:2%;
 
@@ -196,19 +196,19 @@ h1 {
     position:absolute;
     top:60%;
     left:27.25%;
-    background-image:url('BookImg.jpeg')
+    background-image:url('/BookImg.jpeg')
 }
 #HelpButton{
     position:absolute;
     top:60%;
     left:52.25%;
-    background-image: url('HelpImg.png')
+    background-image: url('/HelpImg.png')
 }
 #LoginButton{
     position:absolute;
     top:60%;
     left:77.5%;
-    background-image: url('LoginImg.png')
+    background-image: url('/LoginImg.png')
 }
 
 
