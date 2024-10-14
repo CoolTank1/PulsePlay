@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="starborn.css">
+    <title>Starborn</title>
+</head>
+
+<body>
+
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        // ==================== VARIABLES ====================
+        var xVel = 5, yVel = 5;
+        var x, y, LineX, LineY;
+
+        var upPressed = false, upPressedS = false, upPressedA = false, upPressedD = false;
+
+        var backgroundOffsetX = 0, backgroundOffsetY = 0;
+        var mapWidth = 280, mapHeight = 300;
+
+        var LeftLine = 0, RightLine = 0, TopLine = 0, BottomLine = 0;
+        var nearLeftBorder = false, nearRightBorder = false, nearTopBorder = false, nearBottomBorder = false;
+        var touchingBottomBorder = false, touchingTopBorder = false, touchingLeftBorder = false, touchingRightBorder = false;
+
+        var Playerradius = 0; 
+        var inLeftView = true, inRightView = true; inTopView=true, inBottomView = true;
+        var GridSize = 70;
+
+        // ==================== SET UP CANVAS ====================
+        const canvas = document.getElementById('myCanvas');
+        const g2 = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            x = (canvas.width / 2) - 50;
+            y = (canvas.height / 2) - 50;
+        }
+
+        resizeCanvas();
+        RightLine = canvas.width;
+        BottomLine = canvas.height;
+
+        // ==================== DRAW FUNCTIONS ====================
+        function redraw() {
+            g2.clearRect(0, 0, canvas.width, canvas.height);
+            g2.fillStyle = 'black';
+            g2.fillRect(0, 0, canvas.width, canvas.height);
+
+            BorderGen();
+            gridDraw();
+            drawBasicPlayerModel(canvas.width / 2, canvas.height / 2, 100);
+        }
+
+        function gridDraw() {
+            GridSize = 70;
+            const LineX = backgroundOffsetX % GridSize;
+            const LineY = backgroundOffsetY % GridSize;
+
+            for (var z = LineX; z < canvas.width; z += GridSize) {
+                g2.strokeStyle = '#D3D3D3';
+                drawLine(g2, z, 0, z, canvas.height);
+            }
+            for (var j = LineY; j < canvas.height; j += GridSize) {
+                g2.strokeStyle = '#D3D3D3';
+                drawLine(g2, 0, j, canvas.width, j);
+            }
+        }
+
+        function drawBasicPlayerModel(x, y, radius) {
+            const playerGradient = g2.createRadialGradient(x, y, radius / 8, x, y, radius);
+            playerGradient.addColorStop(0, 'white');
+            playerGradient.addColorStop(0.4, '#F7DD5A');
+            playerGradient.addColorStop(0.5, '#F3D84F');
+            playerGradient.addColorStop(0.7, '#897839');
+            playerGradient.addColorStop(0.8, '#4A4213');
+            playerGradient.addColorStop(0.85, 'rgba(0,0,0,0.05)');
+            playerGradient.addColorStop(0.9, 'rgba(0,0,0,0.02)');
+            playerGradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+            drawCircle(x, y, radius, playerGradient);
+        }
+
+        function drawLine(g2, x1, y1, x2, y2) {
+            g2.beginPath();
+            g2.moveTo(x1, y1);
+            g2.lineTo(x2, y2);
+            g2.stroke();
+        }
+
+        function drawCircle(x, y, radius, color) {
+            g2.beginPath();
+            g2.arc(x, y, radius, 0, Math.PI * 2);
+            g2.fillStyle = color;
+            g2.fill();
+            Playerradius = radius;
+            g2.closePath();
+        }
+
+        // ==================== BORDER AND VIEW LOGIC ====================
+        function BorderGen() {
+            if (backgroundOffsetX > mapWidth) {
+                inLeftView = true;
+                nearLeftBorder = true;
+                g2.strokeStyle = 'red';
+                drawLine(g2, LeftLine, 0, LeftLine, canvas.height);
+            } else if (backgroundOffsetX < mapWidth * -1) {
+                inRightView = true;
+                nearRightBorder = true;
+                g2.strokeStyle = 'red';
+                drawLine(g2, RightLine, 0, RightLine, canvas.height);
+            } else {
+                nearLeftBorder = false;
+                nearRightBorder = false;
+            }
+
+            if (backgroundOffsetY > mapHeight) {
+                inTopView= true;
+                nearTopBorder = true;
+                g2.strokeStyle = 'red';
+                drawLine(g2, 0, TopLine, canvas.width, TopLine);
+            } else if (backgroundOffsetY < mapHeight * -1) {
+                inBottomView = true;
+                nearBottomBorder = true;
+                g2.strokeStyle = 'red';
+                drawLine(g2, 0, BottomLine - 14, canvas.width, BottomLine - 14);
+            } else {
+                nearBottomBorder = false;
+                nearTopBorder = false;
+            }
+        }
+
+        // ==================== MOVEMENT AND UPDATE ====================
+        function update() {
+            handleMovement();
+            handleBorders();
+
+            console.log(backgroundOffsetX);
+
+            // Adjust LeftLine if the player moves out of view
+            if (backgroundOffsetX < mapWidth && inLeftView == true) {
+                LeftLine += 5;
+                inLeftView = false;
+            }
+            else if (backgroundOffsetX > mapHeight && inRightView == true)
+            {
+                RightLine -=5;
+                inRightView = false;w
+            }
+
+            redraw();
+            requestAnimationFrame(update);
+        }
+
+        function handleMovement() {
+            if (upPressed && !touchingTopBorder) {
+                if (nearTopBorder) TopLine += 5;
+                if (nearBottomBorder) BottomLine += 5;
+                backgroundOffsetY += yVel;
+            }
+
+            if (upPressedS && !touchingBottomBorder) {
+                if (nearTopBorder) TopLine -= yVel;
+                if (nearBottomBorder) BottomLine -= yVel;
+                backgroundOffsetY -= yVel;
+            }
+
+            if (upPressedD && !touchingRightBorder) {
+                if (nearLeftBorder) LeftLine -= xVel;
+                if (nearRightBorder) RightLine -= xVel;
+                backgroundOffsetX -= xVel;
+            }
+
+            if (upPressedA && !touchingLeftBorder) {
+                if (nearLeftBorder) LeftLine += xVel;
+                if (nearRightBorder) RightLine += xVel;
+                backgroundOffsetX += xVel;
+            }
+        }
+
+        function handleBorders() {
+            if ((canvas.height / 2 + Playerradius) >= BottomLine) touchingBottomBorder = true;
+            else if (x <= TopLine) touchingTopBorder = true;
+            else touchingTopBorder = touchingBottomBorder = false;
+
+            if (x >= RightLine) touchingRightBorder = true;
+            else if (x <= LeftLine) touchingLeftBorder = true;
+            else touchingLeftBorder = touchingRightBorder = false;
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        window.addEventListener('keyup', (event) => {
+            if (event.key.toLowerCase() === 'w') upPressed = false;
+            if (event.key.toLowerCase() === 's') upPressedS = false;
+            if (event.key.toLowerCase() === 'd') upPressedD = false;
+            if (event.key.toLowerCase() === 'a') upPressedA = false;
+        });
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key.toLowerCase() === 'w') upPressed = true;
+            if (event.key.toLowerCase() === 's') upPressedS = true;
+            if (event.key.toLowerCase() === 'd') upPressedD = true;
+            if (event.key.toLowerCase() === 'a') upPressedA = true;
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // ==================== START THE GAME LOOP ====================
+        requestAnimationFrame(update);
+
+    </script>
+
+</body>
+
+</html>
