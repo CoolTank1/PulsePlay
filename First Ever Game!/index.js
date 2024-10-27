@@ -128,13 +128,41 @@ function init() {
 
 let playingGame = false;
 let enemyInt
+let speedFactor
+let baseSpeed
+let speedRandom
+
+function getEnemySpeed(score){
+    baseSpeed = 1
+    if(score > 3000){
+        baseSpeed *= Math.random() < 0.2 ? 2 : 1
+    }
+    else if(score > 8000){
+        baseSpeed *= Math.random() < 0.4 ? 2 : 1
+    }
+    else if (score > 15000){
+        baseSpeed *= Math.random() < 0.6 ? 2.5 : 1
+    }
+    else if (score >= 30000){
+        baseSpeed *= Math.random() < 0.2 ? 5 : 2.5
+    }
+    return baseSpeed
+
+
+}
+
 
 // Spawn enemies
 function spawnEnemies() {
     if (playingGame == true) {
+        
+
         enemyInt = setInterval(() => {
             const radius = Math.random() * (30 - 4) + 4;
             let x, y;
+            let velocity
+            let fastSpeed
+            //let velocity
 
             if (Math.random() > 0.5) {
                 x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
@@ -146,36 +174,38 @@ function spawnEnemies() {
 
             const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
             const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-
-            const velocity = {
-                x: Math.cos(angle),
-                y: Math.sin(angle)
-            };
+            
+            speedFactor = getEnemySpeed(score)
+            velocity = {
+                x: Math.cos(angle) * speedFactor,
+                y: Math.sin(angle) * speedFactor
+            }
+            
             enemies.push(new Enemy(x, y, radius, color, velocity));
-            console.log("Enemy Created")
-            //console.log(playingGame)
+            //console.log("Enemy Created")
+            //console.log(speedFactor)
         }, 1000);
     }
-    
+
 }
 
 // Animation loop
 function animate() {
     animationId = requestAnimationFrame(animate);
-    
+
     document.addEventListener("visibilitychange", () => {
-        if(document.hidden){
+        if (document.hidden) {
             clearInterval(enemyInt)
             playingGame = true
         }
-        else if(playingGame == true && gameOver == false){
+        else if (playingGame == true && gameOver == false) {
             spawnEnemies()
             playingGame = false
         }
     })
-    
-    
-    
+
+
+
     c.fillStyle = 'rgba(0, 0, 0, 0.1)';
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.draw();
