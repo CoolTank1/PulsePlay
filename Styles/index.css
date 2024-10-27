@@ -190,7 +190,7 @@ h1 {
 
 #GameButton {
     position: absolute;
-    background-image: url('/GameImg.avif');
+    background-image: url('/Images/GameImg.avif');
     top: 57.5%;
     left: 2%;
 
@@ -200,21 +200,21 @@ h1 {
     position: absolute;
     top: 57.5%;
     left: 27.25%;
-    background-image: url('/BookImg.avif')
+    background-image: url('/Images/BookImg.avif')
 }
 
 #HelpButton {
     position: absolute;
     top: 57.5%;
     left: 52.25%;
-    background-image: url('/HelpImg.avif')
+    background-image: url('/Images/HelpImg.avif')
 }
 
 #LoginButton {
     position: absolute;
     top: 57.5%;
     left: 77.5%;
-    background-image: url('/LoginImg.avif')
+    background-image: url('/Images/LoginImg.avif')
 }
 
 

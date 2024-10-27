@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="starbornFIX.css">
+    <title>Starborn</title>
+</head>
+
+<body>
+
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        // ==================== VARIABLES ====================
+        var xVel = 5, yVel = 5;
+        var playerX = 1500, playerY = 1500;
+        var screenCenterX, screenCenterY;
+        var upPressed = false;
+        var upPressedA = false;
+        var upPressedD = false;
+        var upPressedS = false;
+        var playerRadius;
+        //World Var
+        var worldX, worldY;
+
+
+        //Dust field var
+        var dustBorderTopX1 = (getRandomInt(0, 3000));
+        var dustBorderTopY1 = (getRandomInt(0, 3000));
+        var dustBorderTopX2 = getRandomInt(dustBorderTopX1 - 700, dustBorderTopX1 + 700);
+        var dustBorderTopY2 = dustBorderTopY1;
+
+        // ==================== SET UP CANVAS ====================
+        const canvas = document.getElementById('myCanvas');
+        const g2 = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            screenCenterX = (canvas.width / 2);
+            screenCenterY = (canvas.height / 2);
+        }
+
+        resizeCanvas();
+
+        // ==================== DRAW FUNCTIONS ====================
+        function redraw() {
+            g2.clearRect(0, 0, canvas.width, canvas.height);
+            g2.fillStyle = 'black';
+            g2.fillRect(0, 0, canvas.width, canvas.height);
+            gridDraw();
+            borderDraw();
+            dustField();
+            //console.log(NdustBorderTopX1);
+            //console.log(NdustBorderTopY1);
+
+
+
+
+            drawBasicPlayerModel(canvas.width / 2, canvas.height / 2, 100);
+
+
+        }
+
+        function WorldCordTranslate(worldLocX, worldLocY) {
+            worldX = screenCenterX + (worldLocX - playerX);
+            worldY = screenCenterY + (worldLocY - playerY);
+            return { worldX, worldY };
+        }
+
+        function drawBasicPlayerModel(playerX, playerY, radius) {
+            const playerGradient = g2.createRadialGradient(playerX, playerY, radius / 8, playerX, playerY, radius);
+            playerGradient.addColorStop(0, 'white');
+            playerGradient.addColorStop(0.4, '#F7DD5A');
+            playerGradient.addColorStop(0.5, '#F3D84F');
+            playerGradient.addColorStop(0.7, '#897839');
+            playerGradient.addColorStop(0.8, '#4A4213');
+            playerGradient.addColorStop(0.85, 'rgba(0,0,0,0.05)');
+            playerGradient.addColorStop(0.9, 'rgba(0,0,0,0.02)');
+            playerGradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+            drawCircle(playerX, playerY, radius, playerGradient);
+        }
+
+        function drawLine(x1, y1, x2, y2) {
+            g2.beginPath();
+            g2.moveTo(x1, y1);
+            g2.lineTo(x2, y2);
+            g2.stroke();
+        }
+
+        function drawCircle(worldLocX, worldLocY, radius, color) {
+            g2.beginPath();
+            g2.arc(worldLocX, worldLocY, radius, 0, Math.PI * 2);
+            g2.fillStyle = color;
+            g2.fill();
+            g2.closePath();
+            playerRadius = radius;
+        }
+
+        function gridDraw() {
+            for (var z = 0; z <= 3000; z += 75) {
+                const { worldX: VertX1, worldY: VertY1 } = WorldCordTranslate(z, 0);
+                const { worldX: VertX2, worldY: VertY2 } = WorldCordTranslate(z, 3000);
+                g2.strokeStyle = ' #D3D3D3';
+                drawLine(VertX1, VertY1, VertX2, VertY2);
+                const { worldX: HorzX1, worldY: HorzY1 } = WorldCordTranslate(0, z);
+                const { worldX: HorzX2, worldY: HorzY2 } = WorldCordTranslate(3000, z);
+                drawLine(HorzX1, HorzY1, HorzX2, HorzY2);
+            }
+        }
+
+        function borderDraw() {
+            const { worldX: V1BorderX1, worldY: V1BorderY1 } = WorldCordTranslate(0, 0);
+            const { worldX: V1BorderX2, worldY: V1BorderY2 } = WorldCordTranslate(0, 3000);
+            g2.strokeStyle = 'red';
+            drawLine(V1BorderX1, V1BorderY1, V1BorderX2, V1BorderY2);
+            const { worldX: V2BorderX1, worldY: V2BorderY1 } = WorldCordTranslate(0, 0);
+            const { worldX: V2BorderX2, worldY: V2BorderY2 } = WorldCordTranslate(3000, 0);
+            g2.strokeStyle = 'red';
+            drawLine(V2BorderX1, V2BorderY1, V2BorderX2, V2BorderY2);
+            const { worldX: V3BorderX1, worldY: V3BorderY1 } = WorldCordTranslate(3000, 3000);
+            const { worldX: V3BorderX2, worldY: V3BorderY2 } = WorldCordTranslate(0, 3000);
+            g2.strokeStyle = 'red';
+            drawLine(V3BorderX1, V3BorderY1, V3BorderX2, V3BorderY2);
+            const { worldX: V4BorderX1, worldY: V4BorderY1 } = WorldCordTranslate(3000, 0);
+            const { worldX: V4BorderX2, worldY: V4BorderY2 } = WorldCordTranslate(3000, 3000);
+            g2.strokeStyle = 'red';
+            drawLine(V4BorderX1, V4BorderY1, V4BorderX2, V4BorderY2);
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+
+        //var dustBorderTopX1 = (getRandomInt(0, 3000));
+        //var dustBorderTopY1 = (getRandomInt(0, 3000));
+        //var dustBorderTopX2 = getRandomInt(dustBorderTopX1 - 250, dustBorderTopX1 + 250);
+        //var dustBorderTopY2 = dustBorderTopY1;
+        //(getRandomInt(dustBorderTopX1 - 250, dustBorderTopX1 + 250), dustBorderTopY1);
+
+
+        //const { worldX: dustBorderTopX1, worldY: dustBorderTopY1 } = WorldCordTranslate(getRandomInt(0, 3000), getRandomInt(0, 3000));
+        //const { worldX: dustBorderTopX2, worldY: dustBorderTopY2 } = WorldCordTranslate(getRandomInt(dustBorderTopX1 - 250, dustBorderTopX1 + 250), dustBorderTopY1);
+        function dustField() {
+            const { worldX: NdustBorderTopX1, worldY: NdustBorderTopY1 } = WorldCordTranslate(dustBorderTopX1, dustBorderTopY1);
+            const { worldX: NdustBorderTopX2, worldY: NdustBorderTopY2 } = WorldCordTranslate(dustBorderTopX2, dustBorderTopY2);
+            g2.strokeStyle = 'red';
+            drawLine(NdustBorderTopX1, NdustBorderTopY1, NdustBorderTopX2, NdustBorderTopY2);
+
+        }
+
+        // ==================== MOVEMENT AND UPDATE ====================
+        function update() {
+            if (upPressed && playerY - playerRadius + (playerRadius * .1) >= 0) {
+                playerY -= yVel;
+            }
+
+            if (upPressedA && playerX - playerRadius + (playerRadius * .1) >= 0) {
+                playerX -= xVel;
+            }
+
+            if (upPressedD && playerX + playerRadius - (playerRadius * .1) <= 3000) {
+                playerX += xVel;
+            }
+
+            if (upPressedS && playerY + playerRadius - (playerRadius * .1) <= 3000) {
+                playerY += yVel;
+            }
+
+            redraw();
+            requestAnimationFrame(update);
+        }
+
+        // ==================== EVENT LISTENERS ====================
+        window.addEventListener('keyup', (event) => {
+            if (event.key.toLowerCase() === 'w') upPressed = false;
+            if (event.key.toLowerCase() === 's') upPressedS = false;
+            if (event.key.toLowerCase() === 'd') upPressedD = false;
+            if (event.key.toLowerCase() === 'a') upPressedA = false;
+        });
+
+        window.addEventListener('keydown', (event) => {
+            if (event.key.toLowerCase() === 'w') upPressed = true;
+            if (event.key.toLowerCase() === 's') upPressedS = true;
+            if (event.key.toLowerCase() === 'd') upPressedD = true;
+            if (event.key.toLowerCase() === 'a') upPressedA = true;
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // ==================== START THE GAME LOOP ====================
+        requestAnimationFrame(update);
+
+    </script>
+
+</body>
+
+</html>
