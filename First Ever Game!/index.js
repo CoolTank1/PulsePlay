@@ -168,7 +168,7 @@ function animate() {
             clearInterval(enemyInt)
             playingGame = true
         }
-        else if(playingGame == true){
+        else if(playingGame == true && gameOver == false){
             spawnEnemies()
             playingGame = false
         }
@@ -204,6 +204,8 @@ function animate() {
         }
     });
 
+    let gameOver = true
+
     enemies.forEach((enemy, index) => {
         enemy.update();
 
@@ -214,6 +216,7 @@ function animate() {
             cancelAnimationFrame(animationId);
             bigScoreEl.innerHTML = score;
             gameOverEl.style.display = 'flex';
+            gameOver = true
         }
 
         projectiles.forEach((projectile, projectileIndex) => {
@@ -275,4 +278,5 @@ startGameBtn.addEventListener('click', () => {
     animate()
     spawnEnemies()
     gameOverEl.style.display = 'none'
+    gameOver = false;
 });
