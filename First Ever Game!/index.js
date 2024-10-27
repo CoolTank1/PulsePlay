@@ -10,6 +10,7 @@ const startGameBtn = document.querySelector('#startGameBtn');
 const gameOverEl = document.querySelector('#gameOverEl');
 const bigScoreEl = document.querySelector('#bigScoreEl');
 
+
 // Classes
 class Player {
     constructor(x, y, radius, color) {
@@ -125,33 +126,56 @@ function init() {
     bigScoreEl.innerHTML = score;
 }
 
+let playingGame = false;
+let enemyInt
+
 // Spawn enemies
 function spawnEnemies() {
-    setInterval(() => {
-        const radius = Math.random() * (30 - 4) + 4;
-        let x, y;
+    if (playingGame == true) {
+        enemyInt = setInterval(() => {
+            const radius = Math.random() * (30 - 4) + 4;
+            let x, y;
 
-        if (Math.random() > 0.5) {
-            x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
-            y = Math.random() * canvas.height;
-        } else {
-            y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
-            x = Math.random() * canvas.width;
-        }
+            if (Math.random() > 0.5) {
+                x = Math.random() < 0.5 ? 0 - radius : canvas.width + radius;
+                y = Math.random() * canvas.height;
+            } else {
+                y = Math.random() < 0.5 ? 0 - radius : canvas.height + radius;
+                x = Math.random() * canvas.width;
+            }
 
-        const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
-        const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-        const velocity = {
-            x: Math.cos(angle),
-            y: Math.sin(angle)
-        };
-        enemies.push(new Enemy(x, y, radius, color, velocity));
-    }, 1000);
+            const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
+            const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+
+            const velocity = {
+                x: Math.cos(angle),
+                y: Math.sin(angle)
+            };
+            enemies.push(new Enemy(x, y, radius, color, velocity));
+            console.log("Enemy Created")
+            //console.log(playingGame)
+        }, 1000);
+    }
+    
 }
 
 // Animation loop
 function animate() {
     animationId = requestAnimationFrame(animate);
+    
+    document.addEventListener("visibilitychange", () => {
+        if(document.hidden){
+            clearInterval(enemyInt)
+            playingGame = true
+        }
+        else if(playingGame == true){
+            spawnEnemies()
+            playingGame = false
+        }
+    })
+    
+    
+    
     c.fillStyle = 'rgba(0, 0, 0, 0.1)';
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.draw();
@@ -186,6 +210,7 @@ function animate() {
         // End game if enemy collides with player
         const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
         if (dist - enemy.radius - player.radius < 1) {
+            clearInterval(enemyInt)
             cancelAnimationFrame(animationId);
             bigScoreEl.innerHTML = score;
             gameOverEl.style.display = 'flex';
@@ -245,8 +270,9 @@ addEventListener('click', (event) => {
 
 // Start game
 startGameBtn.addEventListener('click', () => {
-    init();
-    animate();
-    spawnEnemies();
-    gameOverEl.style.display = 'none';
+    playingGame = true
+    init()
+    animate()
+    spawnEnemies()
+    gameOverEl.style.display = 'none'
 });
