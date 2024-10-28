@@ -134,17 +134,23 @@ let speedRandom
 
 function getEnemySpeed(score){
     baseSpeed = 1
-    if(score > 3000){
-        baseSpeed *= Math.random() < 0.2 ? 2 : 1
+    if(score > 50000){
+        baseSpeed *= Math.random() < 0.4 ? 5 : 3
     }
-    else if(score > 8000){
-        baseSpeed *= Math.random() < 0.4 ? 2 : 1
+    else if (score > 40000){
+        baseSpeed *= Math.random() < 0.4 ? 5 : 2.5
+    }
+    else if (score > 30000){
+        baseSpeed *= Math.random() < 0.2 ? 5 : 2.5
     }
     else if (score > 15000){
         baseSpeed *= Math.random() < 0.6 ? 2.5 : 1
     }
-    else if (score >= 30000){
-        baseSpeed *= Math.random() < 0.2 ? 5 : 2.5
+    else if(score > 8000){
+        baseSpeed *= Math.random() < 0.4 ? 2 : 1
+    }
+    else if(score > 3000){
+        baseSpeed *= Math.random() < 0.2 ? 2 : 1
     }
     return baseSpeed
 
@@ -184,6 +190,7 @@ function spawnEnemies() {
             enemies.push(new Enemy(x, y, radius, color, velocity));
             //console.log("Enemy Created")
             //console.log(speedFactor)
+            console.log(speedFactor)
         }, 1000);
     }
 
