@@ -9,7 +9,7 @@ const scoreEl = document.querySelector('#scoreEl');
 const startGameBtn = document.querySelector('#startGameBtn');
 const gameOverEl = document.querySelector('#gameOverEl');
 const bigScoreEl = document.querySelector('#bigScoreEl');
-
+const highscoreEl = document.querySelector('#highscoreEl');
 
 // Classes
 class Player {
@@ -114,9 +114,11 @@ let enemies = [];
 let particles = [];
 let animationId;
 let score = 0;
+let highscore = 0;
 
 // Initialize game
 function init() {
+    clearInterval(enemyInt)
     player = new Player(x, y, 10, 'white');
     projectiles = [];
     enemies = [];
@@ -132,24 +134,24 @@ let speedFactor
 let baseSpeed
 let speedRandom
 
-function getEnemySpeed(score){
+function getEnemySpeed(score) {
     baseSpeed = 1
-    if(score > 50000){
+    if (score > 50000) {
         baseSpeed *= Math.random() < 0.4 ? 5 : 3
     }
-    else if (score > 40000){
+    else if (score > 40000) {
         baseSpeed *= Math.random() < 0.4 ? 5 : 2.5
     }
-    else if (score > 30000){
+    else if (score > 30000) {
         baseSpeed *= Math.random() < 0.2 ? 5 : 2.5
     }
-    else if (score > 15000){
+    else if (score > 15000) {
         baseSpeed *= Math.random() < 0.6 ? 2.5 : 1
     }
-    else if(score > 8000){
+    else if (score > 8000) {
         baseSpeed *= Math.random() < 0.4 ? 2 : 1
     }
-    else if(score > 3000){
+    else if (score > 3000) {
         baseSpeed *= Math.random() < 0.2 ? 2 : 1
     }
     return baseSpeed
@@ -161,8 +163,8 @@ function getEnemySpeed(score){
 // Spawn enemies
 function spawnEnemies() {
     if (playingGame == true) {
-        
 
+        clearInterval(enemyInt)
         enemyInt = setInterval(() => {
             const radius = Math.random() * (30 - 4) + 4;
             let x, y;
@@ -180,17 +182,17 @@ function spawnEnemies() {
 
             const angle = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x);
             const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-            
+
             speedFactor = getEnemySpeed(score)
             velocity = {
                 x: Math.cos(angle) * speedFactor,
                 y: Math.sin(angle) * speedFactor
             }
-            
+
             enemies.push(new Enemy(x, y, radius, color, velocity));
             //console.log("Enemy Created")
             //console.log(speedFactor)
-            console.log(speedFactor)
+            //console.log(speedFactor)
         }, 1000);
     }
 
@@ -198,7 +200,9 @@ function spawnEnemies() {
 
 // Animation loop
 function animate() {
+    
     animationId = requestAnimationFrame(animate);
+    //console.log("fps")
 
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
@@ -209,6 +213,7 @@ function animate() {
             spawnEnemies()
             playingGame = false
         }
+    
     })
 
 
@@ -254,6 +259,12 @@ function animate() {
             bigScoreEl.innerHTML = score;
             gameOverEl.style.display = 'flex';
             gameOver = true
+            console.log(score)
+            console.log(highscore)
+            if (score > highscore) {
+                highscoreEl.innerHTML = score;
+                highscore = score
+            }
         }
 
         projectiles.forEach((projectile, projectileIndex) => {
