@@ -10,6 +10,8 @@ const startGameBtn = document.querySelector('#startGameBtn');
 const gameOverEl = document.querySelector('#gameOverEl');
 const bigScoreEl = document.querySelector('#bigScoreEl');
 const highscoreEl = document.querySelector('#highscoreEl');
+const fpsWarning = document.querySelector('#fpsWarning')
+fpsWarning.style.display = 'none'
 
 // Classes
 class Player {
@@ -19,6 +21,8 @@ class Player {
         this.radius = radius;
         this.color = color;
     }
+
+    
 
     draw() {
         c.beginPath();
@@ -198,20 +202,64 @@ function spawnEnemies() {
 
 }
 
+
+let lastFrame = performance.now()
+let fps = 0
+let framesCount = 0
 // Animation loop
 function animate() {
+    currentFrame = performance.now()
+    let delta = currentFrame-lastFrame
+    fps++
     
+    if (delta >= 1000){
+        framesCount = fps
+
+        if(framesCount <= 50){
+            console.log("fps is low")
+            fpsWarning.style.display = 'flex'
+        }
+        else {
+            fpsWarning.style.display = 'none'
+            console.log("fps is normal")
+        }
+
+
+
+        console.log(framesCount)
+        fps = 0
+        framesCount = 0
+        lastFrame = currentFrame
+    }
+    
+    
+
+
+
     animationId = requestAnimationFrame(animate);
     //console.log("fps")
 
     document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
             clearInterval(enemyInt)
-            playingGame = true
+            cancelAnimationFrame(animationId);
+            bigScoreEl.innerHTML = score;
+            gameOverEl.style.display = 'flex';
+            gameOver = true
+            
+            if (score > highscore) {
+                highscoreEl.innerHTML = score;
+                highscore = score
+            }
         }
         else if (playingGame == true && gameOver == false) {
-            spawnEnemies()
             playingGame = false
+            
+            // fps = 0
+            // framesCount = 0
+            // delta = 0
+            // lastFrame = performance.now()
+            // currentFrame = performance.now()
         }
     
     })
@@ -259,12 +307,13 @@ function animate() {
             bigScoreEl.innerHTML = score;
             gameOverEl.style.display = 'flex';
             gameOver = true
-            console.log(score)
-            console.log(highscore)
+            
             if (score > highscore) {
                 highscoreEl.innerHTML = score;
                 highscore = score
             }
+            
+            fpsWarning.style.display = 'none'
         }
 
         projectiles.forEach((projectile, projectileIndex) => {
